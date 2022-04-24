@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.14)
 project(cv_bridge)
 
+# /usr/local/share/cv_bridge_opencv3.4.17/share/cv_bridge/cmake/
+# 在开源代码需要的cmaklist.txt中添加cv_bridge的cmake路径
+# set(cv_bridge_DIR /usr/local/share/cv_bridge_opencv3.4.17/share/cv_bridge/cmake/) //在find_package前面
+#SET(CMAKE_INSTALL_PREFIX /usr/local/share/cv_bridge_opencv3.4.17)
+# set(cv_bridge_DIR /usr/local/share/cv_bridge/cmake)  #在find_package前面
+
 find_package(ament_cmake_ros REQUIRED)
 
 # Default to C++14
@@ -36,22 +42,26 @@ endif()
 find_package(rcpputils REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-find_package(OpenCV 4 QUIET
+find_package(OpenCV 3 REQUIRED
   COMPONENTS
     opencv_core
     opencv_imgproc
     opencv_imgcodecs
   CONFIG
 )
-if(NOT OpenCV_FOUND)
-  find_package(OpenCV 3 REQUIRED
-    COMPONENTS
-      opencv_core
-      opencv_imgproc
-      opencv_imgcodecs
-    CONFIG
-  )
-endif()
+# if(NOT OpenCV_FOUND)
+#   find_package(OpenCV 3 REQUIRED
+#     COMPONENTS
+#       opencv_core
+#       opencv_imgproc
+#       opencv_imgcodecs
+#     CONFIG
+#   )
+# endif()
+# add to check opencv version
+message(STATUS "OpenCV_DIR = ${OpenCV_DIR}")
+message(STATUS "OpenCV_INCLUDE_DIRS = ${OpenCV_INCLUDE_DIRS}")
+#message(STATUS "OpenCV_LIBS = ${OpenCV_LIBS}")
 
 if(NOT ANDROID)
   add_subdirectory(python)
